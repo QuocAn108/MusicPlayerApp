@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MusicPlayer"
         mc:Ignorable="d"
        Title="Music Player" Height="600" Width="900"
-        Background="#FF1E1E1E">
+        Background="#FF1E1E1E" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
