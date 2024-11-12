@@ -8,16 +8,12 @@ using System.Threading.Tasks;
 
 namespace MB.DAL.Models
 {
-    public class Songs
+    public class Playlists
     {
         [Key]
-        public int SongId { get; set; }
-        public string Title { get; set; }
-        public string Artist { get; set; }
-        public string Album { get; set; }
-        public string Duration { get; set; }
-        public string FilePath { get; set; }
-        public DateTime DateAdded { get; set; }
+        public int PlayListId { get; set; }
+        public string Name { get; set; }
+        public DateTime CreatedDate { get; set; }
         public ICollection<PlaylistSong> PlaylistSongs { get; set; }
     }
 }
