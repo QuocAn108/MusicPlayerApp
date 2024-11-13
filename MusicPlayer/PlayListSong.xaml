@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:MusicPlayer"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PlayListSong">
+      Title="PlayListSong" Loaded="Page_Loaded">
 
     <Grid Background="#FF1E1E1E">
         <Grid.RowDefinitions>
@@ -18,16 +18,22 @@
         <TextBlock Text="PlayListSong" FontSize="28" Foreground="White" 
             Margin="23,20,20,0" VerticalAlignment="Top" Height="80"/>
         <Border Grid.Row="1" BorderBrush="Green" BorderThickness="2" CornerRadius="5">
-
-
-            <ListView Name="SongListView" Grid.Row="1" Background="#FF252525" 
-           BorderThickness="0" Margin="20">
+            <ListView Name="ListSongView" Grid.Row="1" Background="#FF252525" 
+           BorderThickness="0" Margin="20" >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Title" Width="200" >
+                        <GridViewColumn Header="Playlist Name" Width="200" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Title}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                                    <TextBlock Text="{Binding Playlist.Name}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
+                        <GridViewColumn Header="Song Name" Width="200" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Song.Title}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -35,7 +41,7 @@
                         <GridViewColumn Header="Artist" Width="150" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Artist}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                                    <TextBlock Text="{Binding Song.Artist}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -43,18 +49,11 @@
                         <GridViewColumn Header="Album" Width="150" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Album}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                                    <TextBlock Text="{Binding Song.Album}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Header="Duration" Width="100" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Duration}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

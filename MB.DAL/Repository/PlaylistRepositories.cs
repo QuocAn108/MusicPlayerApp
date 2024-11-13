@@ -16,6 +16,11 @@ namespace MB.DAL.Repository
             _context = new();
             return _context.Playlists.ToList();
         }
+        public Playlists? GetById(int id)
+        {
+            _context = new();
+            return _context.Playlists.FirstOrDefault(x => x.PlayListId == id);
+        }
         public void Add(Playlists playlist)
         {
             _context = new();

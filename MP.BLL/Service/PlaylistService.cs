@@ -12,6 +12,7 @@ namespace MP.BLL.Service
     {
         private PlaylistRepositories _repo = new();
         public List<Playlists> GetPlaylists() => _repo.GetAll();
+        public Playlists? GetPlaylistsByID(int id) => _repo.GetById(id);
         public void AddPlaylist(Playlists a) => _repo.Add(a);
         public void UpdatePlaylist(Playlists a) => _repo.Update(a);
 

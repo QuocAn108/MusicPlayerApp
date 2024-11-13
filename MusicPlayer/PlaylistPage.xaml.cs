@@ -25,6 +25,7 @@ namespace MusicPlayer
     public partial class PlaylistPage : Page
     {
         private PlaylistService _playlistService = new();
+
         public PlaylistPage()
         {
             InitializeComponent();
@@ -47,9 +48,16 @@ namespace MusicPlayer
         }
         private void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            int playlistId=0;
+            if (sender is Border border && border.DataContext is Playlists playlist)
+            {
+                playlistId = playlist.PlayListId;
+            }
+            Playlists? a = _playlistService.GetPlaylistsByID(playlistId);
             PlayListSong playListSongPage = new PlayListSong();
-
+            playListSongPage.CurrentPlaylist = a;
             ((MainWindow)Application.Current.MainWindow).MainFrame.Navigate(playListSongPage);
+            
         }
     }
 }
