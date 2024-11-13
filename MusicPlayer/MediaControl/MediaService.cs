@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace MusicPlayer.MediaControl
 {
@@ -13,13 +14,24 @@ namespace MusicPlayer.MediaControl
     {
         private MediaPlayer _mediaPlayer = new MediaPlayer();
         private int _currentIndex = -1;
-        private SongServices _songServices = new();
         public bool IsPlaying { get; private set; } = false;
-        public Songs CurrentSong { get; private set; }
+        public Songs CurrentSong { get; set; }
+        public List<Songs> Playlist { get; set; } = new();
+        private DispatcherTimer _timer;
+        public event Action<TimeSpan> PositionChanged;
+
 
         public MediaService()
         {
-            _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded; 
+            _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _timer.Tick += (sender, args) =>
+            {
+                PositionChanged?.Invoke(_mediaPlayer.Position);
+            };
         }
 
         public void Pause()
@@ -27,7 +39,8 @@ namespace MusicPlayer.MediaControl
             if (IsPlaying)
             {
                 _mediaPlayer.Pause();
-                IsPlaying = false; 
+                _timer.Stop();
+                IsPlaying = false;
             }
         }
 
@@ -36,60 +49,41 @@ namespace MusicPlayer.MediaControl
             if (song != null)
             {
                 if (CurrentSong != null && CurrentSong.FilePath == song.FilePath && _mediaPlayer.Position > TimeSpan.Zero)
-                {
                     _mediaPlayer.Play();
-                    IsPlaying = true;
-                }
                 else
                 {
                     _mediaPlayer.Open(new Uri(song.FilePath));
                     _mediaPlayer.Play();
-                    IsPlaying = true;
                 }
-                CurrentSong = song; 
+                _timer.Start();
+                IsPlaying = true;
+                CurrentSong = song;
+                _currentIndex = Playlist.IndexOf(song);
             }
         }
 
         public void Next()
         {
-            if (CurrentSong == null) return;
+            if (Playlist == null || Playlist.Count == 0) return;
 
-            _currentIndex++;
-            if (_currentIndex >= _songServices.GetAllSong().Count)
-                _currentIndex = 0;
-
-            CurrentSong = _songServices.GetAllSong()[_currentIndex];
-            if (CurrentSong != null)
-            {
-                PlaySong(CurrentSong); 
-            }
+            _currentIndex = (_currentIndex + 1) % Playlist.Count;
+            PlaySong(Playlist[_currentIndex]);
         }
 
         public void Previous()
         {
-            if (CurrentSong == null) return; 
-            _currentIndex--;
-            if (_currentIndex < 0)
-                _currentIndex = _songServices.GetAllSong().Count - 1;
+            if (Playlist == null || Playlist.Count == 0) return;
 
-            CurrentSong = _songServices.GetAllSong()[_currentIndex];
-            if (CurrentSong != null)
-            {
-                PlaySong(CurrentSong);
-            }
+            _currentIndex = (_currentIndex - 1 + Playlist.Count) % Playlist.Count;
+            PlaySong(Playlist[_currentIndex]);
         }
 
-        public void SetVolume(double volume)
-        {
-            _mediaPlayer.Volume = volume / 100; 
-        }
+        public void SetVolume(double volume) => _mediaPlayer.Volume = volume / 100;
 
         private void MediaPlayer_MediaEnded(object sender, EventArgs e)
         {
             if (IsPlaying)
-            {
                 Next();
-            }
         }
 
     }

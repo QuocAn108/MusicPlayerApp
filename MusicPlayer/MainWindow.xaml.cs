@@ -19,38 +19,54 @@ namespace MusicPlayer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MediaService _mediaService = new();
-        public Songs CurrentSong { get; set; }
+        public MediaService MediaService { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             ShowHomeContent();
+            MediaService = new();
+            MediaService.PositionChanged += UpdateTimeDisplay;
+        }
+        public void UpdateSongInfo(string title, string artist)
+        {
+            SongTitleText.Text = title;
+            ArtistNameText.Text = artist;
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_mediaService.IsPlaying)
+            if (MediaService.IsPlaying)
             {
-                _mediaService.Pause();
+                MediaService.Pause();
+                PlayButton.Content = "▶";
             }
             else
             {
-                _mediaService.PlaySong(CurrentSong);
+                if (MediaService.CurrentSong != null)
+                {
+                    MediaService.PlaySong(MediaService.CurrentSong);
+                }
+                else if (MediaService.Playlist.Count > 0)
+                {
+                    MediaService.PlaySong(MediaService.Playlist[0]);
+                }
+                PlayButton.Content = "=";
             }
         }
+ 
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            _mediaService.Next();
+            MediaService.Next();
         }
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e)
         {
-            _mediaService.Previous();
+            MediaService.Previous();
         }
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            _mediaService.SetVolume(e.NewValue);
+            MediaService.SetVolume(e.NewValue);
         }
         private void AddSong_Click(object sender, RoutedEventArgs e)
         {
@@ -78,6 +94,16 @@ namespace MusicPlayer
         {
             MainFrame.Content = null;
             HomeContent.Visibility = Visibility.Visible;
+        }
+        private void UpdateTimeDisplay(TimeSpan position)
+        {
+            if (MediaService.CurrentSong != null)
+            {
+                ElapsedTimeTextBlock.Text = position.ToString(@"mm\:ss");
+
+                if (TimeSpan.TryParseExact(MediaService.CurrentSong.Duration, @"mm\:ss", null, out TimeSpan duration))
+                    DurationTextBlock.Text = duration.ToString(@"mm\:ss");
+            }
         }
     }
 }
