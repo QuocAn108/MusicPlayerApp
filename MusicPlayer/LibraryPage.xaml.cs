@@ -23,14 +23,13 @@ namespace MusicPlayer
     /// </summary>
     public partial class LibraryPage : Page
     {
-        private MediaService _mediaService;
+        private MediaService _mediaServic = new();
         private SongServices _songServices = new();
         private Songs _currentSong;
 
         public LibraryPage()
         {
             InitializeComponent();
-            _mediaService = new MediaService();
             LoadSongLibrary();
         }
 
@@ -38,6 +37,8 @@ namespace MusicPlayer
         {
             var songs = _songServices.GetAllSong();
             SongListView.ItemsSource = songs;
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.MediaService.Playlist = songs.ToList();
         }
 
         private void SongListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -45,9 +46,9 @@ namespace MusicPlayer
             if (e.AddedItems.Count > 0 && e.AddedItems[0] is Songs song)
             {
                 _currentSong = song;
-
                 var mainWindow = (MainWindow)Application.Current.MainWindow;
-                mainWindow.CurrentSong = song;
+                mainWindow.MediaService.PlaySong(song);
+                mainWindow.UpdateSongInfo(song.Title, song.Artist);
             }
         }
     }
