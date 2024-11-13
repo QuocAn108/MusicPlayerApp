@@ -42,7 +42,6 @@ namespace MusicPlayer
             {
                 FilePathTextBox.Text = _openFileDialog.FileName;
 
-                // Tự động lấy thông tin từ file mp3 (nếu có)
                 var file = TagLib.File.Create(_openFileDialog.FileName);
                 TitleTextBox.Text = file.Tag.Title;
                 ArtistTextBox.Text = file.Tag.FirstPerformer;
@@ -68,7 +67,6 @@ namespace MusicPlayer
                 _songService.AddSong(song);
                 MessageBox.Show("Song added successfully!");
 
-                // Clear form
                 TitleTextBox.Clear();
                 ArtistTextBox.Clear();
                 AlbumTextBox.Clear();

@@ -1,10 +1,14 @@
-﻿using System;
+﻿using MB.DAL.Models;
+using MP.BLL.Service;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -20,9 +24,32 @@ namespace MusicPlayer
     /// </summary>
     public partial class PlaylistPage : Page
     {
+        private PlaylistService _playlistService = new();
         public PlaylistPage()
         {
             InitializeComponent();
+        }
+
+        private void AddPlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            AddSongPopup.IsOpen = true;
+            AddSongPopup.Placement = PlacementMode.Center;
+        }
+        private void FillData()
+        {
+            PlayListData.ItemsSource = null;
+            PlayListData.ItemsSource = _playlistService.GetPlaylists();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            FillData();
+        }
+        private void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            PlayListSong playListSongPage = new PlayListSong();
+
+            ((MainWindow)Application.Current.MainWindow).MainFrame.Navigate(playListSongPage);
         }
     }
 }

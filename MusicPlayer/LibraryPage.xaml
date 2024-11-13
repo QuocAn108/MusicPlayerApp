@@ -9,23 +9,67 @@
       Title="LibraryPage">
     <Grid Background="#FF1E1E1E">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Library" FontSize="24" Foreground="White" 
-                   Margin="23,10,20,0" VerticalAlignment="Top" Height="80" Grid.RowSpan="2"/>
-        <ListView Name="SongListView" Grid.Row="1" Background="Transparent" 
-                  BorderThickness="0" Margin="20" SelectionChanged="SongListView_SelectionChanged">
+
+        <TextBlock Text="Library" FontSize="28" Foreground="White" 
+               Margin="23,20,20,0" VerticalAlignment="Top" Height="80"/>
+        <Border Grid.Row="1" BorderBrush="Green" BorderThickness="2" CornerRadius="5">
+
+       
+        <ListView Name="SongListView" Grid.Row="1" Background="#FF252525" 
+              BorderThickness="0" Margin="20" SelectionChanged="SongListView_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Title" Width="200" DisplayMemberBinding="{Binding Title}" />
-                    <GridViewColumn Header="Artist" Width="150" DisplayMemberBinding="{Binding Artist}" />
-                    <GridViewColumn Header="Album" Width="150" DisplayMemberBinding="{Binding Album}" />
-                    <GridViewColumn Header="Duration" Width="100" DisplayMemberBinding="{Binding Duration}" />
+                    <GridViewColumn Header="Title" Width="200" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Artist" Width="150" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Artist}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Album" Width="150" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Album}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Duration" Width="100" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Duration}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-       
+        </Border>
+        <Grid Grid.Row="2" Background="#FF252525">
+            <TextBlock Text="0 songs" Foreground="White" 
+                   VerticalAlignment="Center" Margin="20,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                    VerticalAlignment="Center" Margin="20,0">
+                <TextBlock Text="Sort by:" Foreground="#FFBDBDBD" Margin="0,0,10,0"/>
+                <ComboBox Background="Black" Foreground="Green" BorderThickness="0">
+                    <ComboBoxItem>Title</ComboBoxItem>
+                    <ComboBoxItem>Artist</ComboBoxItem>
+                    <ComboBoxItem>Album</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
