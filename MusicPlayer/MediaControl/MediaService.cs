@@ -21,7 +21,6 @@ namespace MusicPlayer.MediaControl
         public List<Songs> Playlist { get; set; } = new();
         private DispatcherTimer _timer;
         public event Action<TimeSpan> PositionChanged;
-
         public MediaService()
         {
             _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
@@ -58,17 +57,8 @@ namespace MusicPlayer.MediaControl
                 IsPlaying = true;
                 CurrentSong = song;
                 _currentIndex = Playlist.IndexOf(song);
-                try
-                {
-                    _rsService.AddRS(new RecentSong { SongId = song.SongId, PlayAt = DateTime.Now });
-                }
-                catch (DbUpdateException ex)
-                {
-                    Console.WriteLine($"Error: {ex.InnerException?.Message}");
-                    Console.WriteLine($"Inner Exception: {ex.InnerException?.Message}");
-                    Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-                    throw;
-                }
+                _rsService.AddRS(new RecentSong { SongId = song.SongId, PlayAt = DateTime.Now });
+
             }
         }
 

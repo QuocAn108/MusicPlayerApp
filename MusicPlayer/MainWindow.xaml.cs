@@ -1,12 +1,13 @@
 ﻿using MB.DAL.Models;
+using Microsoft.IdentityModel.Tokens;
 using MP.BLL.Service;
 using MusicPlayer.MediaControl;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -22,6 +23,7 @@ namespace MusicPlayer
     {
         public MediaService MediaService { get; set; }
         private RecentSongService _rsService = new();
+        private SongServices _songServices = new(); 
         public MainWindow()
         {
             InitializeComponent();
@@ -65,6 +67,21 @@ namespace MusicPlayer
         private void PreviousButton_Click(object sender, RoutedEventArgs e)
         {
             MediaService.Previous();
+        }
+
+        private void Shuffle_Click(object sender, RoutedEventArgs e)
+        {
+            Random rng = new Random();
+            var a = _songServices.GetAllSong();
+            for (int i = a.Count - 1; i >0; i--)
+            {
+                int j =rng.Next(i+1);
+                var temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+                MediaService.PlaySong(a[j]);
+                UpdateSongInfo(a[j].Title, a[j].Artist);
+            }
         }
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -110,13 +127,19 @@ namespace MusicPlayer
         }
         private void FillData()
         {
+            List<RecentSong> a = _rsService.GetAllRS();
+            while (a.Count > 10)
+            {
+                a.RemoveAt(0);
+            }
             RecentSongListView.ItemsSource = null;
-            RecentSongListView.ItemsSource = _rsService.GetAllRS();
+            RecentSongListView.ItemsSource =a;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             FillData();
         }
+
     }
 }

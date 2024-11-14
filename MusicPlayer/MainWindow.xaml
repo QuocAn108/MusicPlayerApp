@@ -131,8 +131,11 @@
 
             <StackPanel Grid.Column="0" Orientation="Horizontal" 
                         VerticalAlignment="Center" Margin="20,0">
-                <Border Width="60" Height="60" Background="#FF333333"
-                        CornerRadius="5"/>
+
+                <Border Width="60" Height="60" 
+                        CornerRadius="5">
+                    <Image Source="D:\Project_QuocAn\MusicPlayerC#\MusicPlayer\MusicPlayer\PlaylistImage.jpg"></Image>
+                </Border>
                 <StackPanel Margin="10,0">
                     <TextBlock x:Name="SongTitleText" Text="Song Title" 
                                Foreground="White" FontSize="14"/>
@@ -152,6 +155,9 @@
                     <Button x:Name="NextButton" Content="⯈⯈" Width="40" Height="40"
                             Background="Transparent" Foreground="White"
                             BorderThickness="0" Click="NextButton_Click"/>
+                    <Button x:Name="Shuffle" Content="⇄" Width="40" Height="40"
+                  Background="Transparent" Foreground="White"
+                  BorderThickness="0" Click="Shuffle_Click"/>  
                 </StackPanel>
                 <Grid>
                     <ProgressBar Value="30" Height="4" 
