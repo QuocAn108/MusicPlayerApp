@@ -19,7 +19,7 @@
             Margin="23,20,20,0" VerticalAlignment="Top" Height="80"/>
         <Border Grid.Row="1" BorderBrush="Green" BorderThickness="2" CornerRadius="5">
             <ListView Name="ListSongView" Grid.Row="1" Background="#FF252525" 
-           BorderThickness="0" Margin="20" >
+           BorderThickness="0" Margin="20" SelectionChanged="ListSongView_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Playlist Name" Width="200" >

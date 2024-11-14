@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MusicPlayer"
         mc:Ignorable="d"
        Title="Music Player" Height="600" Width="900"
-        Background="#FF1E1E1E" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/Audio-File-icon.png">
+        Background="#FF1E1E1E" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/Audio-File-icon.png" Loaded="Window_Loaded" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -88,14 +88,33 @@
                     <TextBlock Text="Recently Played" FontSize="24" 
                               Foreground="White" Margin="20"/>
 
-                    <ListView Grid.Row="1" Background="Transparent" 
+                    <ListView Name="RecentSongListView" Grid.Row="1" Background="Transparent" 
                              BorderThickness="0" Margin="20,0,20,20">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Title" Width="200"/>
-                                <GridViewColumn Header="Artist" Width="150"/>
-                                <GridViewColumn Header="Album" Width="150"/>
-                                <GridViewColumn Header="Duration" Width="100"/>
+                                <GridViewColumn Header="Title" Width="250" >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Songs.Title}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Artist" Width="150" >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Songs.Artist}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="Album" Width="150" >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Songs.Album}" Foreground="DarkSeaGreen" FontWeight="ExtraBlack"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                               
                             </GridView>
                         </ListView.View>
                     </ListView>

@@ -18,6 +18,7 @@ namespace MB.DAL.Models
         public string Duration { get; set; }
         public string FilePath { get; set; }
         public DateTime DateAdded { get; set; }
+        public ICollection<RecentSong> RecentSongs { get; set; }
         public ICollection<PlaylistSong> PlaylistSongs { get; set; }
     }
 }

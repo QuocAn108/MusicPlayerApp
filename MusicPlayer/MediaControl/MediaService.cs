@@ -1,4 +1,5 @@
 ﻿using MB.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using MP.BLL.Service;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,14 @@ namespace MusicPlayer.MediaControl
 {
     public class MediaService
     {
-        private MediaPlayer _mediaPlayer = new MediaPlayer();
+        private MediaPlayer _mediaPlayer = new();
+        private RecentSongService _rsService = new();
         private int _currentIndex = -1;
         public bool IsPlaying { get; private set; } = false;
         public Songs CurrentSong { get; set; }
         public List<Songs> Playlist { get; set; } = new();
         private DispatcherTimer _timer;
         public event Action<TimeSpan> PositionChanged;
-
 
         public MediaService()
         {
@@ -33,7 +34,6 @@ namespace MusicPlayer.MediaControl
                 PositionChanged?.Invoke(_mediaPlayer.Position);
             };
         }
-
         public void Pause()
         {
             if (IsPlaying)
@@ -43,7 +43,6 @@ namespace MusicPlayer.MediaControl
                 IsPlaying = false;
             }
         }
-
         public void PlaySong(Songs song)
         {
             if (song != null)
@@ -59,6 +58,17 @@ namespace MusicPlayer.MediaControl
                 IsPlaying = true;
                 CurrentSong = song;
                 _currentIndex = Playlist.IndexOf(song);
+                try
+                {
+                    _rsService.AddRS(new RecentSong { SongId = song.SongId, PlayAt = DateTime.Now });
+                }
+                catch (DbUpdateException ex)
+                {
+                    Console.WriteLine($"Error: {ex.InnerException?.Message}");
+                    Console.WriteLine($"Inner Exception: {ex.InnerException?.Message}");
+                    Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                    throw;
+                }
             }
         }
 

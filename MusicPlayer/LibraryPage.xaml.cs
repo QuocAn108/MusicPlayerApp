@@ -47,7 +47,7 @@ namespace MusicPlayer
             {
                 _currentSong = song;
                 var mainWindow = (MainWindow)Application.Current.MainWindow;
-                mainWindow.MediaService.PlaySong(song);
+                mainWindow.MediaService.PlaySong(song); 
                 mainWindow.UpdateSongInfo(song.Title, song.Artist);
             }
         }

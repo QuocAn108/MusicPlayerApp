@@ -27,7 +27,15 @@ namespace MB.DAL.Repository
             _context = new();
             return _context.PlaylistSongs.Where(x => x.PlaylistId == PlayListId).Include("Playlist").Include("Song").ToList();
         }
-
+        public List<Songs> GetSongsByPlaylistId(int playlistId)
+        {
+            _context = new();
+            return _context.PlaylistSongs
+                .Where(x => x.PlaylistId == playlistId)
+                .Include(x => x.Song)
+                .Select(x => x.Song)
+                .ToList();
+        }
         public void Add(PlaylistSong song)
         {
             _context = new();

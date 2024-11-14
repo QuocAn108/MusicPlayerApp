@@ -21,6 +21,7 @@ namespace MusicPlayer
     public partial class MainWindow : Window
     {
         public MediaService MediaService { get; set; }
+        private RecentSongService _rsService = new();
         public MainWindow()
         {
             InitializeComponent();
@@ -90,6 +91,7 @@ namespace MusicPlayer
         private void Home_Click(object sender, RoutedEventArgs e)
         {
             ShowHomeContent();
+            FillData();
         }
         private void ShowHomeContent()
         {
@@ -106,6 +108,15 @@ namespace MusicPlayer
                     DurationTextBlock.Text = duration.ToString(@"mm\:ss");
             }
         }
+        private void FillData()
+        {
+            RecentSongListView.ItemsSource = null;
+            RecentSongListView.ItemsSource = _rsService.GetAllRS();
+        }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            FillData();
+        }
     }
 }

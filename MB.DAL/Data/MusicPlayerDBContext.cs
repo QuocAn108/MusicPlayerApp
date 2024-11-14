@@ -23,6 +23,8 @@ namespace MB.DAL.Data
         public DbSet<Songs> Songs { get; set; }
         public DbSet<Playlists> Playlists { get; set; }
         public DbSet<PlaylistSong> PlaylistSongs { get; set; }
+        public DbSet<RecentSong> RecentSongs { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -66,6 +68,11 @@ namespace MB.DAL.Data
                 .HasOne(ps => ps.Song)
                 .WithMany(s => s.PlaylistSongs)
                 .HasForeignKey(ps => ps.SongId);
+            modelBuilder.Entity<RecentSong>()
+                 .HasOne(rs => rs.Songs)
+                 .WithMany(s => s.RecentSongs)
+                 .HasForeignKey(rs => rs.SongId)
+                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
