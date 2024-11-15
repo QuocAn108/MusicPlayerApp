@@ -23,7 +23,7 @@ namespace MusicPlayer
     {
         public MediaService MediaService { get; set; }
         private RecentSongService _rsService = new();
-        private SongServices _songServices = new(); 
+        private SongServices _songServices = new();
         public MainWindow()
         {
             InitializeComponent();
@@ -57,7 +57,7 @@ namespace MusicPlayer
                 PlayButton.Content = "=";
             }
         }
- 
+
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
@@ -73,9 +73,9 @@ namespace MusicPlayer
         {
             Random rng = new Random();
             var a = _songServices.GetAllSong();
-            for (int i = a.Count - 1; i >0; i--)
+            for (int i = a.Count - 1; i > 0; i--)
             {
-                int j =rng.Next(i+1);
+                int j = rng.Next(i + 1);
                 var temp = a[i];
                 a[i] = a[j];
                 a[j] = temp;
@@ -133,7 +133,7 @@ namespace MusicPlayer
                 a.RemoveAt(0);
             }
             RecentSongListView.ItemsSource = null;
-            RecentSongListView.ItemsSource =a;
+            RecentSongListView.ItemsSource = a;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
